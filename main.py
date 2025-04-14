@@ -1,32 +1,76 @@
-def chat_bot():
-    target_number = 42  # Загаданное число
-    print("Привет! Я бот, который будет с тобой говорить, пока ты не угадаешь моё число.")
-    print("Подсказка: число находится в диапазоне от 1 до 100. Попробуй угадать!")
+import random
 
+def music_recommendation():
+    genres = ["рок", "поп", "электроника", "джаз", "классика"]
+    moods = ["весёлое", "грустное", "расслабляющее", "энергичное"]
+    artists = {
+        "рок": ["Queen", "The Beatles", "Nirvana"],
+        "поп": ["Taylor Swift", "Ariana Grande", "Ed Sheeran"],
+        "электроника": ["Daft Punk", "The Chemical Brothers", "Deadmau5"],
+        "джаз": ["Louis Armstrong", "Miles Davis", "Ella Fitzgerald"],
+        "классика": ["Mozart", "Beethoven", "Chopin"]
+    }
+    
+    print("\nРекомендация музыки:")
+    print("Выберите жанр или настроение")
+    print("Доступные жанры:", ", ".join(genres))
+    print("Доступные настроения:", ", ".join(moods))
+    
+    choice = input("Ваш выбор: ").lower()
+    
+    if choice in genres:
+        rec = random.choice(artists[choice])
+        print(f"Рекомендуем исполнителя: {rec}")
+    elif choice in moods:
+        if choice == "весёлое":
+            rec = random.choice(artists["поп"] + artists["электроника"])
+        elif choice == "грустное":
+            rec = random.choice(artists["джаз"] + artists["классика"])
+        elif choice == "расслабляющее":
+            rec = random.choice(artists["джаз"] + artists["классика"])
+        else:  # энергичное
+            rec = random.choice(artists["рок"] + artists["электроника"])
+        print(f"Рекомендуем исполнителя для {choice} настроения: {rec}")
+    else:
+        print("Не удалось распознать ваш выбор")
+
+def mood_community():
+    communities = {
+        "весёлое": "Радостные меломаны",
+        "грустное": "Грустные романтики",
+        "расслабляющее": "Чилл-сообщество",
+        "энергичное": "Энергия музыки"
+    }
+    
+    print("\nСообщество по настроению:")
+    print("Доступные варианты:", ", ".join(communities.keys()))
+    
+    choice = input("Выберите настроение: ").lower()
+    
+    if choice in communities:
+        print(f"Рекомендуем сообщество: {communities[choice]}")
+    else:
+        print("Не удалось распознать ваш выбор")
+
+def main():
+    print("Текстовый бот-помощник")
+    
     while True:
-        user_input = input("Твоя догадка (или 'выход' для завершения): ").strip().lower()
-
-        # Проверяем, хочет ли пользователь выйти
-        if user_input == 'выход':
-            print("До свидания! Возвращайся ещё.")
+        print("\n1 — Рекомендация музыки")
+        print("2 — Сообщество по настроению")
+        print("0 — Выход")
+        
+        choice = input("Выберите действие (0-2): ")
+        
+        if choice == "1":
+            music_recommendation()
+        elif choice == "2":
+            mood_community()
+        elif choice == "0":
+            print("До свидания!")
             break
-
-        # Проверяем, является ли ввод числом
-        if not user_input.isdigit():
-            print("Пожалуйста, введи число!")
-            continue
-
-        guess = int(user_input)
-
-        # Проверяем, угадал ли пользователь число
-        if guess == target_number:
-            print(f"Поздравляю! Ты угадал число {target_number}. Игра завершена.")
-            break
-        elif guess < target_number:
-            print("Моё число больше. Попробуй ещё раз!")
         else:
-            print("Моё число меньше. Попробуй ещё раз!")
+            print("Пожалуйста, выберите 0, 1 или 2")
 
-# Запускаем бота
 if __name__ == "__main__":
-    chat_bot()
+    main()
