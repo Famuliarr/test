@@ -1,8 +1,19 @@
 import random
 
 def music_recommendation():
-    genres = ["рок", "поп", "электроника", "джаз", "классика"]
-    moods = ["весёлое", "грустное", "расслабляющее", "энергичное"]
+    genres = {
+        1: "рок", 
+        2: "поп", 
+        3: "электроника", 
+        4: "джаз", 
+        5: "классика"
+    }
+    moods = {
+        1: "весёлое", 
+        2: "грустное", 
+        3: "расслабляющее", 
+        4: "энергичное"
+    }
     artists = {
         "рок": ["Queen", "The Beatles", "Nirvana"],
         "поп": ["Taylor Swift", "Ariana Grande", "Ed Sheeran"],
@@ -12,65 +23,91 @@ def music_recommendation():
     }
     
     print("\nРекомендация музыки:")
-    print("Выберите жанр или настроение")
-    print("Доступные жанры:", ", ".join(genres))
-    print("Доступные настроения:", ", ".join(moods))
+    print("1 - Выбрать по жанру")
+    print("2 - Выбрать по настроению")
     
-    choice = input("Ваш выбор: ").lower()
+    while True:
+        choice_type = input("Ваш выбор (1-2): ")
+        if choice_type in ["1", "2"]:
+            break
+        print("Пожалуйста, введите 1 или 2")
     
-    if choice in genres:
-        rec = random.choice(artists[choice])
-        print(f"Рекомендуем исполнителя: {rec}")
-    elif choice in moods:
-        if choice == "весёлое":
-            rec = random.choice(artists["поп"] + artists["электроника"])
-        elif choice == "грустное":
-            rec = random.choice(artists["джаз"] + artists["классика"])
-        elif choice == "расслабляющее":
-            rec = random.choice(artists["джаз"] + artists["классика"])
-        else:  # энергичное
-            rec = random.choice(artists["рок"] + artists["электроника"])
-        print(f"Рекомендуем исполнителя для {choice} настроения: {rec}")
+    if choice_type == "1":
+        print("\nВыберите жанр:")
+        for num, genre in genres.items():
+            print(f"{num} - {genre}")
+        
+        while True:
+            choice = input("Введите номер жанра (1-5): ")
+            if choice in ["1", "2", "3", "4", "5"]:
+                genre = genres[int(choice)]
+                rec = random.choice(artists[genre])
+                print(f"\nРекомендуем исполнителя: {rec}")
+                break
+            print("Пожалуйста, введите число от 1 до 5")
+    
     else:
-        print("Не удалось распознать ваш выбор")
+        print("\nВыберите настроение:")
+        for num, mood in moods.items():
+            print(f"{num} - {mood}")
+        
+        while True:
+            choice = input("Введите номер настроения (1-4): ")
+            if choice in ["1", "2", "3", "4"]:
+                mood = moods[int(choice)]
+                if mood == "весёлое":
+                    rec = random.choice(artists["поп"] + artists["электроника"])
+                elif mood == "грустное":
+                    rec = random.choice(artists["джаз"] + artists["классика"])
+                elif mood == "расслабляющее":
+                    rec = random.choice(artists["джаз"] + artists["классика"])
+                else:  # энергичное
+                    rec = random.choice(artists["рок"] + artists["электроника"])
+                print(f"\nРекомендуем исполнителя для настроения '{mood}': {rec}")
+                break
+            print("Пожалуйста, введите число от 1 до 4")
 
 def mood_community():
     communities = {
-        "весёлое": "Радостные меломаны",
-        "грустное": "Грустные романтики",
-        "расслабляющее": "Чилл-сообщество",
-        "энергичное": "Энергия музыки"
+        1: ("весёлое", "Радостные меломаны"),
+        2: ("грустное", "Грустные романтики"),
+        3: ("расслабляющее", "Чилл-сообщество"),
+        4: ("энергичное", "Энергия музыки")
     }
     
     print("\nСообщество по настроению:")
-    print("Доступные варианты:", ", ".join(communities.keys()))
+    for num, (mood, community) in communities.items():
+        print(f"{num} - {mood}")
     
-    choice = input("Выберите настроение: ").lower()
-    
-    if choice in communities:
-        print(f"Рекомендуем сообщество: {communities[choice]}")
-    else:
-        print("Не удалось распознать ваш выбор")
+    while True:
+        choice = input("Введите номер настроения (1-4): ")
+        if choice in ["1", "2", "3", "4"]:
+            mood, community = communities[int(choice)]
+            print(f"\nРекомендуем сообщество: {community}")
+            break
+        print("Пожалуйста, введите число от 1 до 4")
 
 def main():
     print("Текстовый бот-помощник")
     
     while True:
-        print("\n1 — Рекомендация музыки")
-        print("2 — Сообщество по настроению")
-        print("0 — Выход")
+        print("\n1 - Рекомендация музыки")
+        print("2 - Сообщество по настроению")
+        print("0 - Выход")
         
-        choice = input("Выберите действие (0-2): ")
+        while True:
+            choice = input("Выберите действие (0-2): ")
+            if choice in ["0", "1", "2"]:
+                break
+            print("Пожалуйста, введите 0, 1 или 2")
         
         if choice == "1":
             music_recommendation()
         elif choice == "2":
             mood_community()
-        elif choice == "0":
+        else:
             print("До свидания!")
             break
-        else:
-            print("Пожалуйста, выберите 0, 1 или 2")
 
 if __name__ == "__main__":
     main()
